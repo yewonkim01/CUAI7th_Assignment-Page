@@ -30,7 +30,6 @@ class DB:
         self.doc_ref.update({
             f"Q{num}":{f'ans':answer, "date":date}
         })
-        return 
     
     #제출한 문제인지 db에서 확인
     def submitted_check(self, qs:list) -> list: #반환값은 문제 순서에 맞게 [1,0,1,1,1] (2번 문제를 제출 안한 것)
