@@ -100,7 +100,7 @@ def all(qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                     value = submitted_ans
                 else:
                     value = ""
-                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 작성해 주세요.", value = value)
+                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value = value)
 
                 #제출된 답변 있으면 정답화면 바로 보이게/
                 submits = db.submitted_check(qs) #submits = [1,0,1,1,1]
@@ -128,13 +128,8 @@ def all(qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                             st.markdown(' :green[☑ 제출되었습니다.]')
                             show_ans(As[i])
                             st.rerun()
+
                             
-                        q,w,e,r,t = st.columns(5)
-                        with t:
-                            st.button("다음 문제로 이동>") #이거 작동안함 / tab으로 구현했는데 어떻게 연결할지 모르겠음
-                            
-                else:
-                    st.markdown('10자 이상 작성해주세요.')
                 
 
             
