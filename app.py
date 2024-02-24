@@ -135,6 +135,12 @@ if __name__ == "__main__":
         page_title="CUAI 7기 BASIC Track assignment",
         layout = "wide",
     )
+    hide_st_style = """
+            <style>
+            header {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_st_style, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -145,6 +151,7 @@ if __name__ == "__main__":
     
     if login_result[0]:
         with st.sidebar:
+            #사이드바 크기 조정
             st.markdown(
                 """
                 <style>
