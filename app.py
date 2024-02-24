@@ -8,6 +8,8 @@ from DB_class import DB
 from submit_df import submit_df
 from email_info import data
 
+from streamlit_option_menu import option_menu
+
 
 #이메일로 로그인
 def login_email() -> tuple:
@@ -97,8 +99,7 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                 # 이미 제출한 답변이 있으면 기본값(value)으로 답변작성란에 띄워지도록
                 submitted_ans = db.submitted_answer(i)
                 
-                answer = st.text_area("", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value=submitted_ans)
-                print(answer)
+                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value=submitted_ans)
 
                 # 제출하기 button
                 button = st.button("제출하기", key=f"button{i+1}", disabled= (len(answer.strip()) < 10))
@@ -111,7 +112,6 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
 
                 # 제출된 답변 없으면 <제출하기> 버튼 눌러야 정답확인 가능 
                 if button:
-                    print(f'\n{answer}')
                     # 이미 제출했는데 버튼 또 누르면(재제출)
                     if submits[i]:
                         # st.balloons() 풍선나옴!!
@@ -129,12 +129,6 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                 
           
 if __name__ == "__main__":
-    qa = qa_settings.QA["ch01"]
-    Qs = qa["Q"]
-    As = qa["A"]
-    chapter = qa["chapter"]
-    chapter_name = qa["chapter_name"]
-
     #페이지 기본 설정
     st.set_page_config(
         #page_icon=""
@@ -150,6 +144,25 @@ if __name__ == "__main__":
 
     
     if login_result[0]:
+        with st.sidebar:
+            st.markdown(
+                """
+                <style>
+                [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+                    width:250px;
+                }
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+            selected = st.selectbox("챕터 선택", ['ch01', 'ch02'])
+            print(selected)
+        
+        qa = qa_settings.QA[selected]
+        Qs = qa["Q"]
+        As = qa["A"]
+        chapter = qa["chapter"]
+        chapter_name = qa["chapter_name"]
         name, email = login_result[1:]
         all(Qs, As, chapter, chapter_name, name, email)
 
