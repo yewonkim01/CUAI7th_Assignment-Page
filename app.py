@@ -164,6 +164,13 @@ if __name__ == "__main__":
             )
             selected = st.selectbox("챕터 선택", ['ch01', 'ch02'])
             print(selected)
+            
+            st.write('  ')
+            st.write('  ')
+            st.write('  ')
+            st.write('# 중앙대학교')
+            st.write('# 인공지능학회')
+            st.write("# **CUAI 7TH**")
         
         qa = qa_settings.QA[selected]
         Qs = qa["Q"]
