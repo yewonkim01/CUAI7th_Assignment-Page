@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import copy
 
 import qa_settings
 from DB_class import DB
@@ -57,7 +58,6 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
 
     #문제들을 tab으로 구현
     tabs = st.tabs([f'Q{i}' for i in range(1, len(Qs)+1)])
-    tabs = [tab for tab in tabs]
 
     db = DB(chapter, name)
     
@@ -97,11 +97,12 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                 submitted_ans = db.submitted_answer(i)
                 
                 answer = st.text_area("", key = f"ans{i+1}", height=200, placeholder="답안을 작성해 주세요.", value=submitted_ans)
+                print(answer)
 
                 # 제출하기 button
                 button = st.button("제출하기", key=f"button{i+1}")
 
-                # 제출된 답변 있으면 정답화면 바로 보이게/
+                # # 제출된 답변 있으면 정답화면 바로 보이게/
                 submits = db.submitted_check(Qs) #submits = [1,0,1,1,1]
                 if submits[i]:
                     st.markdown(' :green[☑ 제출되었습니다.]')
@@ -116,17 +117,21 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                     if button:
                         print(f'\n{answer}')
                         # 이미 제출했는데 버튼 또 누르면(재제출)
+                        
+                        
                         if submits[i]:
                             # st.balloons() 풍선나옴!!
                             # db에만 답변 저장
                             db.save_db(i+1, answer)
+                            st.rerun()
                             
-                        # 처음 제출이면
+                        # # 처음 제출이면
                         else:
                             db.save_db(i+1, answer)
                             # 제출문구 띄우고 답변 보여주기
                             st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
+                            st.rerun()
                 
           
 if __name__ == "__main__":
