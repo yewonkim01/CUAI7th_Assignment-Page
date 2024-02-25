@@ -5,7 +5,7 @@ from email_info import data
 firstore DB에 챕터이름의 콜렉션, 학회원들 이름 문서로 등록해주는 코드
 """
 
-chapter = "ch01"
+chapter = "ch07"
 
 db = DB(chapter, None)
 

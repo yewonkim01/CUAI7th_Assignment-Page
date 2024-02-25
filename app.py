@@ -131,7 +131,7 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
 if __name__ == "__main__":
     #페이지 기본 설정
     st.set_page_config(
-        #page_icon=""
+        page_icon="./images/cuai_logo.png",
         page_title="CUAI 7기 BASIC Track assignment",
         layout = "wide",
     )
@@ -151,26 +151,27 @@ if __name__ == "__main__":
     
     if login_result[0]:
         with st.sidebar:
-            #사이드바 크기 조정
+            
             st.markdown(
                 """
                 <style>
-                [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
-                    width:250px;
+                [data-testid="StyledFullScreenButton"] {
+                    visibility: hidden;
                 }
-                </style>
                 """,
                 unsafe_allow_html=True,
             )
-            selected = st.selectbox("챕터 선택", ['ch01', 'ch02'])
-            print(selected)
             
-            st.write('  ')
-            st.write('  ')
-            st.write('  ')
+            st.image("./images/cau_cuai_logo.png", use_column_width=True)
+            # st.image("./images/cuai_cau_logo.png", use_column_width=True)
             st.write('# 중앙대학교')
             st.write('# 인공지능학회')
             st.write("# **CUAI 7TH**")
+            for i in range(3):
+                st.write('  ')
+
+            selected = st.selectbox("챕터 선택", ['ch01', 'ch02', 'ch03', 'ch04-1', 'ch04-2', 'ch05', 'ch06', 'ch07'])
+            print(selected)
         
         qa = qa_settings.QA[selected]
         Qs = qa["Q"]
