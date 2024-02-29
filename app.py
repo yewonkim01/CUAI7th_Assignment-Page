@@ -32,9 +32,10 @@ def show_answer(A:str):
                 border-radius: 10px;
                 background-color: #45435A;
                 padding: 20px;
-                height: 200px;
+                height: 270px;
                 margin-right:10px;
                 margin-bottom:20px;
+                overflow-y: auto;
             }
         </style>
     """
@@ -101,14 +102,18 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                 
                 answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value=submitted_ans)
 
-                # 제출하기 button
-                button = st.button("제출하기", key=f"button{i+1}", disabled= (len(answer.strip()) < 10))
+                a,b,c,d = st.columns(4)
+                with a:
+                    # 제출하기 button
+                    button = st.button("제출하기", key=f"button{i+1}", disabled= (len(answer.strip()) < 10))
 
-                # # 제출된 답변 있으면 정답화면 바로 보이게/
-                submits = db.submitted_check(Qs) #submits = [1,0,1,1,1]
-                if submits[i]:
-                    st.markdown(' :green[☑ 제출되었습니다.]')
-                    show_answer(As[i])
+                with d:
+                    # # 제출된 답변 있으면 정답화면 바로 보이게/
+                    submits = db.submitted_check(Qs) #submits = [1,0,1,1,1]
+                    if submits[i]:
+                        st.markdown(' :green[☑ 제출되었습니다.]')
+                        
+                if submits[i]: show_answer(As[i])
 
                 # 제출된 답변 없으면 <제출하기> 버튼 눌러야 정답확인 가능 
                 if button:
@@ -123,7 +128,7 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
                     else:
                         db.save_db(i+1, answer)
                         # 제출문구 띄우고 답변 보여주기
-                        st.markdown(' :green[☑ 제출되었습니다.]')
+                        with d: st.markdown(' :green[☑ 제출되었습니다.]')
                         show_answer(As[i])
                         st.rerun()
                 
@@ -151,6 +156,17 @@ if __name__ == "__main__":
     
     if login_result[0]:
         with st.sidebar:
+            #사이드바 크기 조정
+            st.markdown(
+                """
+                <style>
+                [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+                    width:250px;
+                }
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
             
             st.markdown(
                 """
@@ -162,7 +178,8 @@ if __name__ == "__main__":
                 unsafe_allow_html=True,
             )
             
-            st.image("./images/cau_cuai_logo.png", use_column_width=True)
+            #st.image("./images/cau_cuai_logo.png", use_column_width=True)
+            st.image("./images/cuai_logo_transpver.png", use_column_width=True)
             # st.image("./images/cuai_cau_logo.png", use_column_width=True)
             st.write('# 중앙대학교')
             st.write('# 인공지능학회')
@@ -171,7 +188,8 @@ if __name__ == "__main__":
                 st.write('  ')
 
             selected = st.selectbox("챕터 선택", ['ch01', 'ch02', 'ch03', 'ch04-1', 'ch04-2', 'ch05', 'ch06', 'ch07'])
-            print(selected)
+            #st.markdown('<div style="height: 480px;"></div>', unsafe_allow_html=True)
+            
         
         qa = qa_settings.QA[selected]
         Qs = qa["Q"]

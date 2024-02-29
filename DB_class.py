@@ -41,6 +41,7 @@ class DB:
 
     #이미 이전에 작성한 내용있으면 DB에서 가져오기 없으면 "" 반환
     def submitted_answer(self, q_num:int) -> str: #반환값은 이미 작성했던 답변
+        print('dddddddddddd', self.doc_field)
         if f"Q{q_num+1}" in self.doc_field.keys():
             return self.doc_field[f"Q{q_num+1}"]['ans']
         else:
