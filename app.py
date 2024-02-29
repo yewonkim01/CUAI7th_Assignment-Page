@@ -32,7 +32,7 @@ def show_answer(A:str):
                 border-radius: 10px;
                 background-color: #45435A;
                 padding: 20px;
-                height: 270px;
+                height: 260px;
                 margin-right:10px;
                 margin-bottom:20px;
                 overflow-y: auto;
