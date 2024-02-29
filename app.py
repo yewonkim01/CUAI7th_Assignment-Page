@@ -8,7 +8,6 @@ from DB_class import DB
 from submit_df import submit_df
 from email_info import data
 
-from streamlit_option_menu import option_menu
 
 
 #이메일로 로그인
