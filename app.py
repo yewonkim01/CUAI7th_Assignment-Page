@@ -156,16 +156,17 @@ if __name__ == "__main__":
     if login_result[0]:
         with st.sidebar:
             #사이드바 크기 조정
-            st.markdown(
-                """
-                <style>
-                [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
-                    width:250px;
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
+            #st.markdown(
+            #    """
+            #    <style>
+            #    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+            #        width:250px;
+            #    }
+            #    </style>
+            #    """,
+            #    unsafe_allow_html=True,
+            #)
+            
             
             st.markdown(
                 """
