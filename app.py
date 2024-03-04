@@ -114,6 +114,7 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
 
                 # 제출된 답변 없으면 <제출하기> 버튼 눌러야 정답확인 가능 
                 if button:
+                    #DEADLINE 기능 추가: 설정된 deadline 지나면 제출할 수 없음.
                     now = datetime.now()
                     if now > deadline:
                         st.error('과제제출 기한이 지나 제출할 수 없습니다.')
