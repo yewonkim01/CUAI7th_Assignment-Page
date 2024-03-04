@@ -9,7 +9,7 @@ from DB_class import DB
 
 def submit_df(chapter, name, num_q):
     db = DB(chapter, name)
-    doc_field = db.doc_field
+    doc_field_keys = db.doc_field.keys()
 
     #제출했으면 O표시 초록색으로
     def select_color(value):
@@ -20,10 +20,11 @@ def submit_df(chapter, name, num_q):
 
     #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
     def check_db_submitted(value):
-        if value in doc_field.keys():
+        if value in doc_field_keys:
             return 'O'
         else:
             return ''
+
     
     #데이터프레임 생성
     df = pd.DataFrame(
@@ -35,4 +36,7 @@ def submit_df(chapter, name, num_q):
     st.dataframe(style_df, width=305)
     
     if df.eq('O').all().all():
-        st.markdown(f' :green[모든 문제를 제출했습니다.]')
+        date = db.save_db_FINAL_SUBMIT()
+        st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
+    else:
+        st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
