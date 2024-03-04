@@ -1,12 +1,10 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import copy
 
 import qa_settings
 from DB_class import DB
 from submit_df import submit_df
 from email_info import data
+from datetime import datetime
 
 
 
@@ -46,7 +44,7 @@ def show_answer(A:str):
     st.markdown(f'<div class="ans-rounded-box">{A}</div>', unsafe_allow_html=True)
 
 
-def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
+def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
     '''
     Qs: 해당 주차 문제 담긴 리스트
     As: 해당 주차 정답 담긴 리스트
@@ -116,20 +114,23 @@ def all(Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
 
                 # 제출된 답변 없으면 <제출하기> 버튼 눌러야 정답확인 가능 
                 if button:
-                    # 이미 제출했는데 버튼 또 누르면(재제출)
-                    if submits[i]:
-                        # st.balloons() 풍선나옴!!
-                        # db에만 답변 저장
-                        db.save_db(i+1, answer)
-                        st.rerun()
-                        
-                    # # 처음 제출이면
+                    now = datetime.now()
+                    if now > deadline:
+                        st.error('과제제출 기한이 지나 제출할 수 없습니다.')
                     else:
-                        db.save_db(i+1, answer)
-                        # 제출문구 띄우고 답변 보여주기
-                        with d: st.markdown(' :green[☑ 제출되었습니다.]')
-                        show_answer(As[i])
-                        st.rerun()
+                        # 이미 제출했는데 버튼 또 누르면(재제출)
+                        if submits[i]:
+                            # db에만 답변 저장
+                            db.save_db(i+1, answer)
+                            st.rerun()
+                            
+                        # # 처음 제출이면
+                        else:
+                            db.save_db(i+1, answer)
+                            # 제출문구 띄우고 답변 보여주기
+                            with d: st.markdown(' :green[☑ 제출되었습니다.]')
+                            show_answer(As[i])
+                            st.rerun()
                 
           
 if __name__ == "__main__":
@@ -187,17 +188,26 @@ if __name__ == "__main__":
             for i in range(3):
                 st.write('  ')
 
-            selected = st.selectbox("챕터 선택", ['ch01', 'ch02', 'ch03', 'ch04-1', 'ch04-2', 'ch05', 'ch06', 'ch07'])
+            selected = st.selectbox("챕터 선택", [
+                'ch02',
+                #'ch03',
+                #'ch04-1',
+                #'ch04-2',
+                #'ch05',
+                #'ch06',
+                #'ch07'
+                ])
             #st.markdown('<div style="height: 480px;"></div>', unsafe_allow_html=True)
             
         
         qa = qa_settings.QA[selected]
+        deadline = qa["deadline"]
         Qs = qa["Q"]
         As = qa["A"]
         chapter = qa["chapter"]
         chapter_name = qa["chapter_name"]
         name, email = login_result[1:]
-        all(Qs, As, chapter, chapter_name, name, email)
+        all(deadline, Qs, As, chapter, chapter_name, name, email)
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
