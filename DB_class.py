@@ -46,6 +46,7 @@ class DB:
         self.doc_ref.update({
             f"Q{num}":{f'ans':answer, "date":date}
         })
+        st.rerun()
 
     
     
