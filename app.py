@@ -133,17 +133,17 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
                         # 이미 제출했는데 버튼 또 누르면(재제출)
                         if submits[i]:
                             # db에만 답변 저장
-                            db.save_db(i+1, answer)
                             st.session_state.return_num = i+1
+                            db.save_db(i+1, answer)
                             #st.rerun()
                             
                         # # 처음 제출이면
                         else:
-                            db.save_db(i+1, answer)
                             # 제출문구 띄우고 답변 보여주기
                             with d: st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
                             st.session_state.return_num = i+1
+                            db.save_db(i+1, answer)
                             #st.rerun()
                 
           
