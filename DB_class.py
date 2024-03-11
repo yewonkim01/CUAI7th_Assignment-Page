@@ -46,6 +46,7 @@ class DB:
         self.doc_ref.update({
             f"Q{num}":{f'ans':answer, "date":date}
         })
+        #st.rerun()
 
     
     
@@ -65,7 +66,7 @@ class DB:
             return ""
         
 
-    def submit_df(self, chapter, name, num_q):
+    def submit_df(self, chapter, q_num, name, num_q):
         #제출했으면 O표시 초록색으로
         def select_color(value):
             if value == 'O':
@@ -80,21 +81,20 @@ class DB:
             else:
                 return ''
 
-        value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
-        
-        #데이터프레임 생성
-        if 'submit_df' not in st.session_state:
-            df = pd.DataFrame(value, index = ['제출'])
-            st.session_state['submit_df'] = df
+        if 'initial_df_value' not in st.session_state:
+            value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
+            st.session_state.submit_df = value
         else:
-            df = pd.DataFrame(value, index = ['제출'])
-            st.session_state.submit_df = df
+            value[f'Q{q_num}'] = 'O'
+            st.session_state.submit_df = value
+        #데이터프레임 생성
+        df = pd.DataFrame(value, index = ['제출'])
         
         #값에 select_color() 적용
-        style_df = st.session_state.submit_df.style.applymap(lambda x: select_color(x))
+        style_df = df.style.applymap(lambda x: select_color(x))
         st.dataframe(style_df, width=305)
         
-        if st.session_state.submit_df.eq('O').all().all():
+        if df.eq('O').all().all():
             date = self.save_db_FINAL_SUBMIT()
             st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
         else:
