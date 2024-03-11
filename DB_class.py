@@ -80,11 +80,10 @@ class DB:
             else:
                 return ''
 
-        
+        value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
         
         #데이터프레임 생성
         if 'submit_df' not in st.session_state:
-            value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
             df = pd.DataFrame(value, index = ['제출'])
             st.session_state['submit_df'] = df
         else:
