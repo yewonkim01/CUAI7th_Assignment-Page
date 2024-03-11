@@ -55,11 +55,6 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
     email: 학회원 이메일
     '''
 
-    #상단 오른쪽에 제출했는지 데이터프레임 보여주기
-    with col2:
-        a,b = st.columns(2)
-        with b:
-            db.submit_df(chapter, name, len(Qs))
 
     # 페이지 서브헤더 제목 설정
     st.subheader(f"[Chapter{chapter[2:]}] {chapter_name}")
@@ -129,7 +124,7 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
                         if submits[i]:
                             # db에만 답변 저장
                             db.save_db(i+1, answer)
-                            #st.rerun()
+                            st.rerun()
                             
                         # # 처음 제출이면
                         else:
@@ -137,7 +132,7 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
                             # 제출문구 띄우고 답변 보여주기
                             with d: st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
-                            #st.rerun()
+                            st.rerun()
                 
           
 if __name__ == "__main__":
@@ -230,6 +225,12 @@ if __name__ == "__main__":
         db = DB(chapter, name)
         
         all(col2, db, deadline, Qs, As, chapter, chapter_name, name, email)
+
+        #상단 오른쪽에 제출했는지 데이터프레임 보여주기
+        with col2:
+            a,b = st.columns(2)
+            with b:
+                db.submit_df(chapter, name, len(Qs))
 
         
 
