@@ -97,12 +97,12 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
                 # 이미 제출한 답변이 있으면 기본값(value)으로 답변작성란에 띄워지도록
                 submitted_ans = db.submitted_answer(i)
                 
-                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value=submitted_ans)
+                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 작성해 주세요.", value=submitted_ans)
 
                 a,b,c,d = st.columns(4)
                 with a:
                     # 제출하기 button
-                    button = st.button("제출하기", key=f"button{i+1}", disabled= (len(answer.strip()) < 10))
+                    button = st.button("제출하기", key=f"button{i+1}")
 
                 with d:
                     # # 제출된 답변 있으면 정답화면 바로 보이게/
@@ -140,13 +140,25 @@ if __name__ == "__main__":
         page_icon="./images/cuai_logo.png",
         page_title="CUAI 7기 BASIC Track assignment",
         layout = "wide",
-    )
+    ) 
+    st.markdown(
+    """
+    <style>
+    .stApp {
+        margin-top: -30px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
     hide_st_style = """
             <style>
             header {visibility: hidden;}
             </style>
             """
     st.markdown(hide_st_style, unsafe_allow_html=True)
+
+    st.write('<style>div.block‑container{padding‑top:2rem;}</style>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
