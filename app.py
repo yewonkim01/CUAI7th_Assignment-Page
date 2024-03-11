@@ -4,7 +4,6 @@ from DB_class import DB
 from email_info import data
 from datetime import datetime
 
-#from submit_df import submit_df
 
 
 
@@ -255,7 +254,7 @@ if __name__ == "__main__":
                 else:
                      if st.session_state.return_num:
                         st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
-                db.submit_df(chapter, name, len(Qs))
+                db.submit_df()
 
         
 

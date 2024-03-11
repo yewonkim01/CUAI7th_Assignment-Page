@@ -70,35 +70,18 @@ class DB:
         else:
             return ''
         
-    def submit_df(self, chapter, name, num_q):
+    def submit_df(self):
         kst = pytz.timezone('Asia/Seoul')
         now = datetime.now(kst)
         
         #date도 저장
         date = now.strftime("%Y.%m.%d %H:%M")
-
-        #제출했으면 O표시 초록색으로
-        def select_color(value):
-            if value == 'O':
-                return 'color:green'
-            else:
-                return 'color:red'
-
-        #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
-        def check_db_submitted(value):
-            if value in self.doc_field_keys:
-                return 'O'
-            else:
-                return ''
-
         
         #데이터프레임 생성
-        df = pd.DataFrame(
-            {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
-            , index = ['제출'])
+        df = pd.DataFrame(st.session_state.value, index = ['제출'])
         
         #값에 select_color() 적용
-        style_df = df.style.applymap(lambda x: select_color(x))
+        style_df = df.style.applymap(lambda x: self.select_color(x))
         st.dataframe(style_df, width=305)
         
         if df.eq('O').all().all():
