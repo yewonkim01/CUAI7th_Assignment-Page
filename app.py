@@ -58,6 +58,11 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
 
     # 페이지 서브헤더 제목 설정
     st.subheader(f"[Chapter{chapter[2:]}] {chapter_name}")
+
+    with colb:
+        a,b = st.columns(2)
+        with b:
+            db.submit_df(chapter, name, len(Qs))
     
 
     #문제들을 tab으로 구현
