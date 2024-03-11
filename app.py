@@ -4,6 +4,8 @@ from DB_class import DB
 from email_info import data
 from datetime import datetime
 
+from submit_df import submit_df
+
 
 
 
@@ -154,16 +156,6 @@ if __name__ == "__main__":
         layout = "wide",
     ) 
 
-    st.write(
-    """
-    <style>
-    .css-1v0wn9d.e18vbvph0 {
-        font-size: 44px !important; /* Streamlit의 기본 글꼴 크기 */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
     st.markdown(
     """
     <style>
@@ -263,7 +255,7 @@ if __name__ == "__main__":
                 else:
                      if st.session_state.return_num:
                         st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
-                db.submit_df(chapter, name, len(Qs), st.session_state.value)
+                submit_df(chapter, name, len(Qs))
 
         
 
