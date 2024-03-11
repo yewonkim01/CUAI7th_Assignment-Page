@@ -71,18 +71,17 @@ class DB:
             return 'color:green'
         else:
             return 'color:red'
-
+    
     #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
     def check_db_submitted(self, value):
         if value in self.doc_field_keys:
             return 'O'
         else:
             return ''
-        
 
-    def submit_df(self, chapter, q_num, name, num_q):
+    def submit_df(self, chapter, name, num_q, value):
         #데이터프레임 생성
-        df = pd.DataFrame(st.session_state.df_value, index = ['제출'])
+        df = pd.DataFrame(value, index = ['제출'])
         
         #값에 select_color() 적용
         style_df = df.style.applymap(lambda x: self.select_color(x))
