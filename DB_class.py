@@ -46,7 +46,6 @@ class DB:
         self.doc_ref.update({
             f"Q{num}":{f'ans':answer, "date":date}
         })
-        #st.rerun()
 
     
     
@@ -82,16 +81,21 @@ class DB:
                 return ''
 
         
+        
         #데이터프레임 생성
-        df = pd.DataFrame(
-            {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
-            , index = ['제출'])
+        if 'submit_df' not in st.session_state:
+            value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
+            df = pd.DataFrame(value, index = ['제출'])
+            st.session_state['submit_df'] = df
+        else:
+            df = pd.DataFrame(value, index = ['제출'])
+            st.session_state.submit_df = df
         
         #값에 select_color() 적용
-        style_df = df.style.applymap(lambda x: select_color(x))
+        style_df = st.session_state.submit_df.style.applymap(lambda x: select_color(x))
         st.dataframe(style_df, width=305)
         
-        if df.eq('O').all().all():
+        if st.session_state.submit_df.eq('O').all().all():
             date = self.save_db_FINAL_SUBMIT()
             st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
         else:
