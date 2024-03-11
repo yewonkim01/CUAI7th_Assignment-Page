@@ -58,20 +58,27 @@ def all(colb, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
 
     # 페이지 서브헤더 제목 설정
     st.subheader(f"[Chapter{chapter[2:]}] {chapter_name}")
+
+    if 'df_value' not in st.session_state:
+            value = {f'Q{i}':db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
+            st.session_state.df_value = value
+    else:
+        value[f'Q{i+1}'] = 'O'
+        st.session_state.df_value = value
+
+    #상단 오른쪽에 제출했는지 데이터프레임 보여주기
+    with colb:
+        a,b = st.columns(2)
+        with b:
+            db.submit_df(chapter, i+1, name, len(Qs))
     
 
     #문제들을 tab으로 구현
     tabs = st.tabs([f'Q{i}' for i in range(1, len(Qs)+1)])
+
     
     #존재하는 tab수만큼 반복문 돌리면서 화면 구성
     for i in range(len(tabs)):
-
-        #상단 오른쪽에 제출했는지 데이터프레임 보여주기
-        with colb:
-            a,b = st.columns(2)
-            with b:
-                db.submit_df(chapter, i+1, name, len(Qs))
-
         with tabs[i]:
             col1, col2 = st.columns(2)  #col1은 왼쪽 문제보이는 열, col2는 오른쪽 답변과 정답확인하는 열 
 
