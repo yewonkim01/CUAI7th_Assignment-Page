@@ -44,7 +44,7 @@ def show_answer(A:str):
     st.markdown(f'<div class="ans-rounded-box">{A}</div>', unsafe_allow_html=True)
 
 
-def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
+def all(colb, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
     '''
     db: 데이터베이스
     Qs: 해당 주차 문제 담긴 리스트
@@ -65,6 +65,12 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
     
     #존재하는 tab수만큼 반복문 돌리면서 화면 구성
     for i in range(len(tabs)):
+
+        #상단 오른쪽에 제출했는지 데이터프레임 보여주기
+        with colb:
+            a,b = st.columns(2)
+            with b:
+                db.submit_df(chapter, i+1, name, len(Qs))
 
         with tabs[i]:
             col1, col2 = st.columns(2)  #col1은 왼쪽 문제보이는 열, col2는 오른쪽 답변과 정답확인하는 열 
@@ -161,8 +167,8 @@ if __name__ == "__main__":
 
     st.write('<style>div.block‑container{padding‑top:2rem;}</style>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-    with col1:
+    cola, colb = st.columns(2)
+    with cola:
         #이메일로 로그인
         login_result = login_email() #tuple로 반환 (db에 등록된 이메일인지 여부, 이름, 이메일)
 
@@ -224,13 +230,9 @@ if __name__ == "__main__":
 
         db = DB(chapter, name)
         
-        all(col2, db, deadline, Qs, As, chapter, chapter_name, name, email)
+        all(colb, db, deadline, Qs, As, chapter, chapter_name, name, email)
 
-        #상단 오른쪽에 제출했는지 데이터프레임 보여주기
-        with col2:
-            a,b = st.columns(2)
-            with b:
-                db.submit_df(chapter, name, len(Qs))
+        
 
         
 
