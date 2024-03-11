@@ -68,17 +68,3 @@ class DB:
             return 'O'
         else:
             return ''
-
-    def submit_df(self, chapter, name, num_q, value):
-        #데이터프레임 생성
-        df = pd.DataFrame(value, index = ['제출'])
-        
-        #값에 select_color() 적용
-        style_df = df.style.applymap(lambda x: self.select_color(x))
-        st.dataframe(style_df, width=305)
-        
-        if df.eq('O').all().all():
-            date = self.save_db_FINAL_SUBMIT()
-            st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
-        else:
-            st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
