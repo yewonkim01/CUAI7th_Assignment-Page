@@ -122,7 +122,7 @@ def all(db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:
                         if submits[i]:
                             # db에만 답변 저장
                             db.save_db(i+1, answer)
-                            st.rerun()
+                            #st.rerun()
                             
                         # # 처음 제출이면
                         else:
@@ -130,7 +130,7 @@ def all(db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:
                             # 제출문구 띄우고 답변 보여주기
                             with d: st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
-                            st.rerun()
+                            #st.rerun()
                 
           
 if __name__ == "__main__":
