@@ -2,6 +2,10 @@ from google.cloud import firestore
 from datetime import datetime
 import pytz
 
+import streamlit as st
+import pandas as pd
+
+
 """
 firestore DB 연결해주는 클래스
 """
@@ -14,6 +18,7 @@ class DB:
         if name:
             self.doc_ref = self.collection.document(name)
             self.doc_field = self.doc_ref.get()._data
+            self.doc_field_keys = self.doc_field.keys()
 
     #firestore_registerName.py에서 쓰임(DB에 챕터명, 학회원들 이름 등록하는 함수)
     def register_name(self, name):
@@ -46,7 +51,7 @@ class DB:
     
     #제출한 문제인지 db에서 확인
     def submitted_check(self, qs:list) -> list: #반환값은 문제 순서에 맞게 [1,0,1,1,1] (2번 문제를 제출 안한 것)
-        q_list = [i for i in list(self.doc_field.keys()) if i[0] == 'Q']
+        q_list = [i for i in list(self.doc_field_keys) if i[0] == 'Q']
         q_list = [int(i[1]) for i in q_list]
         submitted_list = [1 if i in q_list else 0 for i in range(1, len(qs)+1)]
         return submitted_list
@@ -54,7 +59,39 @@ class DB:
 
     #이미 이전에 작성한 내용있으면 DB에서 가져오기 없으면 "" 반환
     def submitted_answer(self, q_num:int) -> str: #반환값은 이미 작성했던 답변
-        if f"Q{q_num+1}" in self.doc_field.keys():
+        if f"Q{q_num+1}" in self.doc_field_keys:
             return self.doc_field[f"Q{q_num+1}"]['ans']
         else:
             return ""
+        
+
+    def submit_df(self, chapter, name, num_q):
+        #제출했으면 O표시 초록색으로
+        def select_color(value):
+            if value == 'O':
+                return 'color:green'
+            else:
+                return 'color:red'
+
+        #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
+        def check_db_submitted(value):
+            if value in self.doc_field_keys:
+                return 'O'
+            else:
+                return ''
+
+        
+        #데이터프레임 생성
+        df = pd.DataFrame(
+            {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
+            , index = ['제출'])
+        
+        #값에 select_color() 적용
+        style_df = df.style.applymap(lambda x: select_color(x))
+        st.dataframe(style_df, width=305)
+        
+        if df.eq('O').all().all():
+            date = self.save_db_FINAL_SUBMIT()
+            st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
+        else:
+            st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
