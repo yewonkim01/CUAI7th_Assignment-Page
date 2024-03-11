@@ -1,10 +1,10 @@
 import streamlit as st
-
 import qa_settings
 from DB_class import DB
-from submit_df import submit_df
 from email_info import data
 from datetime import datetime
+
+
 
 
 
@@ -44,8 +44,9 @@ def show_answer(A:str):
     st.markdown(f'<div class="ans-rounded-box">{A}</div>', unsafe_allow_html=True)
 
 
-def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
+def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
     '''
+    db: 데이터베이스
     Qs: 해당 주차 문제 담긴 리스트
     As: 해당 주차 정답 담긴 리스트
     chapter: 챕터    ex)ch01 (db에 저장되는 collection 이름)
@@ -54,13 +55,13 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
     email: 학회원 이메일
     '''
 
+
     # 페이지 서브헤더 제목 설정
     st.subheader(f"[Chapter{chapter[2:]}] {chapter_name}")
+    
 
     #문제들을 tab으로 구현
     tabs = st.tabs([f'Q{i}' for i in range(1, len(Qs)+1)])
-
-    db = DB(chapter, name)
     
     #존재하는 tab수만큼 반복문 돌리면서 화면 구성
     for i in range(len(tabs)):
@@ -94,15 +95,24 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
             with col2:
                 st.write('\n')
 
-                # 이미 제출한 답변이 있으면 기본값(value)으로 답변작성란에 띄워지도록
-                submitted_ans = db.submitted_answer(i)
+                if f'num{i+1}_ans' not in st.session_state:
+                    st.session_state[f'num{i+1}_ans'] = db.submitted_answer(i)
+
+                #submitted_ans = db.submitted_answer(i)
                 
-                answer = st.text_area(" ", key = f"ans{i+1}", height=200, placeholder="답안을 10자 이상 작성해 주세요.", value=submitted_ans)
+
+                answer = st.text_area(" ", key = f'num{i+1}_ans', height=200,
+                                      placeholder="답안을 작성해 주세요.",
+                                      value=st.session_state[f'num{i+1}_ans'])
+                #print(st.session_state[f'num{i+1}_ans'])
+                #st.session_state[f'num{i+1}_ans'] = answer
+
+                
 
                 a,b,c,d = st.columns(4)
                 with a:
                     # 제출하기 button
-                    button = st.button("제출하기", key=f"button{i+1}", disabled= (len(answer.strip()) < 10))
+                    button = st.button("제출하기", key=f"button{i+1}")
 
                 with d:
                     # # 제출된 답변 있으면 정답화면 바로 보이게/
@@ -123,7 +133,8 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
                         if submits[i]:
                             # db에만 답변 저장
                             db.save_db(i+1, answer)
-                            st.rerun()
+                            st.session_state.return_num = i+1
+                            #st.rerun()
                             
                         # # 처음 제출이면
                         else:
@@ -131,7 +142,8 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
                             # 제출문구 띄우고 답변 보여주기
                             with d: st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
-                            st.rerun()
+                            st.session_state.return_num = i+1
+                            #st.rerun()
                 
           
 if __name__ == "__main__":
@@ -140,13 +152,25 @@ if __name__ == "__main__":
         page_icon="./images/cuai_logo.png",
         page_title="CUAI 7기 BASIC Track assignment",
         layout = "wide",
-    )
+    ) 
+    st.markdown(
+    """
+    <style>
+    .stApp {
+        margin-top: -30px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
     hide_st_style = """
             <style>
             header {visibility: hidden;}
             </style>
             """
     st.markdown(hide_st_style, unsafe_allow_html=True)
+
+    st.write('<style>div.block‑container{padding‑top:2rem;}</style>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -208,13 +232,29 @@ if __name__ == "__main__":
         chapter = qa["chapter"]
         chapter_name = qa["chapter_name"]
         name, email = login_result[1:]
-        all(deadline, Qs, As, chapter, chapter_name, name, email)
+
+        db = DB(chapter, name)
+        
+        if 'return_num' not in st.session_state:
+            st.session_state.return_num = ''
+        
+        
+
+        all(col2, db,deadline, Qs, As, chapter, chapter_name, name, email)
+
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
             a,b = st.columns(2)
             with b:
-                submit_df(chapter, name, len(Qs))
+                if 'value' not in st.session_state:
+                    st.session_state.value = {f'Q{i}': db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
+                else:
+                     if st.session_state.return_num:
+                        st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
+                db.submit_df(chapter, name, len(Qs), st.session_state.value)
+
+        
 
 
                 
