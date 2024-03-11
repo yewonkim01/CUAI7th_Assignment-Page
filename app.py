@@ -153,6 +153,17 @@ if __name__ == "__main__":
         page_title="CUAI 7기 BASIC Track assignment",
         layout = "wide",
     ) 
+
+    st.write(
+    """
+    <style>
+    .css-1v0wn9d.e18vbvph0 {
+        font-size: 44px !important; /* Streamlit의 기본 글꼴 크기 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
     st.markdown(
     """
     <style>

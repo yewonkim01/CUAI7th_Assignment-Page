@@ -41,12 +41,13 @@ def submit_df(chapter, name, num_q):
     
     #값에 select_color() 적용
     style_df = df.style.applymap(lambda x: select_color(x))
-    st.dataframe(style_df, width=305)
     
     if df.eq('O').all().all():
+        st.dataframe(style_df, width=305)
         st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
         db.doc_ref.update({
             "FINAL_SUBMIT":
             date[2:]})
     else:
+        st.dataframe(style_df, width=305)
         st.markdown(f'❌:red[미제출된 항목이 있습니다.]')

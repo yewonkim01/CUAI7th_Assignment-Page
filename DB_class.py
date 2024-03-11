@@ -1,7 +1,7 @@
 from google.cloud import firestore
-from datetime import datetime
-import pytz
 
+import pytz
+from datetime import datetime
 import streamlit as st
 import pandas as pd
 
@@ -25,16 +25,6 @@ class DB:
         self.doc_ref = self.collection.document(name)
         self.doc_ref.set(0)
 
-    def save_db_FINAL_SUBMIT(self):
-        kst = pytz.timezone('Asia/Seoul')
-        now = datetime.now(kst)
-        
-        #date도 저장
-        date = now.strftime("%Y.%m.%d %H:%M")
-        self.doc_ref.update({
-            "FINAL_SUBMIT":date[2:]
-        })
-        return date[2:]
 
     #db에 저장
     def save_db(self, num:int, answer:str):
