@@ -1,10 +1,10 @@
 import streamlit as st
-
 import qa_settings
 from DB_class import DB
-from submit_df import submit_df
 from email_info import data
 from datetime import datetime
+
+
 
 
 
@@ -44,8 +44,9 @@ def show_answer(A:str):
     st.markdown(f'<div class="ans-rounded-box">{A}</div>', unsafe_allow_html=True)
 
 
-def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
+def all(db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
     '''
+    db: 데이터베이스
     Qs: 해당 주차 문제 담긴 리스트
     As: 해당 주차 정답 담긴 리스트
     chapter: 챕터    ex)ch01 (db에 저장되는 collection 이름)
@@ -59,8 +60,6 @@ def all(deadline:str, Qs:list, As:list, chapter:str, chapter_name:str, name:str,
 
     #문제들을 tab으로 구현
     tabs = st.tabs([f'Q{i}' for i in range(1, len(Qs)+1)])
-
-    db = DB(chapter, name)
     
     #존재하는 tab수만큼 반복문 돌리면서 화면 구성
     for i in range(len(tabs)):
@@ -220,13 +219,16 @@ if __name__ == "__main__":
         chapter = qa["chapter"]
         chapter_name = qa["chapter_name"]
         name, email = login_result[1:]
-        all(deadline, Qs, As, chapter, chapter_name, name, email)
+
+        db = DB(chapter, name)
+        
+        all(db, deadline, Qs, As, chapter, chapter_name, name, email)
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
             a,b = st.columns(2)
             with b:
-                submit_df(chapter, name, len(Qs))
+                db.submit_df(chapter, name, len(Qs))
 
 
                 
