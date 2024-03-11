@@ -124,6 +124,7 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
                         if submits[i]:
                             # db에만 답변 저장
                             db.save_db(i+1, answer)
+                            return i+1
                             #st.rerun()
                             
                         # # 처음 제출이면
@@ -132,6 +133,7 @@ def all(col2, db, deadline:str, Qs:list, As:list, chapter:str, chapter_name:str,
                             # 제출문구 띄우고 답변 보여주기
                             with d: st.markdown(' :green[☑ 제출되었습니다.]')
                             show_answer(As[i])
+                            return i+1
                             #st.rerun()
                 
           
@@ -224,15 +226,17 @@ if __name__ == "__main__":
 
         db = DB(chapter, name)
         
-        all(col2, db, deadline, Qs, As, chapter, chapter_name, name, email)
+        return_num = all(col2, db,deadline, Qs, As, chapter, chapter_name, name, email)
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
             a,b = st.columns(2)
             with b:
-                global value
-                value = {f'Q{i}': db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
-                db.submit_df(chapter, name, len(Qs), value)
+                if 'value' not in st.session_state:
+                    st.session_state.value = {f'Q{i}': db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
+                else:
+                    st.session_state.value[f'Q{return_num}'] = 'O'
+                db.submit_df(chapter, name, len(Qs), st.session_state.value)
 
         
 
