@@ -65,33 +65,27 @@ class DB:
         else:
             return ""
         
+    #제출했으면 O표시 초록색으로
+    def select_color(self, value):
+        if value == 'O':
+            return 'color:green'
+        else:
+            return 'color:red'
+
+    #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
+    def check_db_submitted(self, value):
+        if value in self.doc_field_keys:
+            return 'O'
+        else:
+            return ''
+        
 
     def submit_df(self, chapter, q_num, name, num_q):
-        #제출했으면 O표시 초록색으로
-        def select_color(value):
-            if value == 'O':
-                return 'color:green'
-            else:
-                return 'color:red'
-
-        #제출되었는지 여부/ 제출완료는 O, 미제출은 ""
-        def check_db_submitted(value):
-            if value in self.doc_field_keys:
-                return 'O'
-            else:
-                return ''
-
-        if 'initial_df_value' not in st.session_state:
-            value = {f'Q{i}':check_db_submitted(f"Q{i}") for i in range(1, num_q+1)}
-            st.session_state.submit_df = value
-        else:
-            value[f'Q{q_num}'] = 'O'
-            st.session_state.submit_df = value
         #데이터프레임 생성
-        df = pd.DataFrame(value, index = ['제출'])
+        df = pd.DataFrame(st.session_state.df_value, index = ['제출'])
         
         #값에 select_color() 적용
-        style_df = df.style.applymap(lambda x: select_color(x))
+        style_df = df.style.applymap(lambda x: self.select_color(x))
         st.dataframe(style_df, width=305)
         
         if df.eq('O').all().all():
