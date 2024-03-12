@@ -5,19 +5,31 @@ from email_info import data
 
 import pytz
 from datetime import datetime
+import time
+
+if 'notice' not in st.session_state:
+    st.session_state['notice'] = """
+            * 문제는 모두 주관식이며, 제한시간은 없습니다.<br><br>
+            * Basic Track 퀴즈 참여는 학회 출석 요건 중 하나이며, 정해진 기간 안에 꼭 응시해주세요.<br><br>
+            * 문제 풀이 결과는 학회 수료와 무관하니, 정답 유무에 관계없이 개념 확인 용도로 테스트를 봐주시면 감사하겠습니다.
+            """
 
 #이메일로 로그인
-def login_email() -> tuple:
-    email = st.text_input("본인의 이메일로 로그인하세요.")
-    email = email.strip()
+def login_email(email) -> tuple:
+    name = ""
 
     if email in data.keys():
+        st.session_state['notice'] = ""
         name = data.get(email)
         st.markdown(f' :green[[CUAI 7기 BASIC Track]] {name} {email}')
-        return True, name, email
+        #return name, email
     else:
         st.markdown(' :green[CUAI에 등록된 이메일을 입력해주세요.]')
-        return (False,)
+        for i in range(3):
+                st.write('  ')
+        #return ""
+    st.write(st.session_state['notice'], unsafe_allow_html=True)
+    return name, email
 
 #정답출력 함수
 def show_answer(A:str):    
@@ -52,6 +64,7 @@ def all(col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:str, nam
     name: 학회원 이름
     email: 학회원 이메일
     '''
+
 
 
     # 페이지 서브헤더 제목 설정
@@ -182,11 +195,12 @@ if __name__ == "__main__":
     col1, col2 = st.columns(2)
     with col1:
         #이메일로 로그인
-        login_result = login_email() #tuple로 반환 (db에 등록된 이메일인지 여부, 이름, 이메일)
+        email = st.text_input("본인의 이메일로 로그인하세요.")
+        email = email.strip()
+        name, email = login_email(email) #tuple로 반환 (db에 등록된 이메일인지 여부, 이름, 이메일)
 
-
-    
-    if login_result[0]:
+    if name:
+        #time.sleep(3)
         with st.sidebar:
             #사이드바 크기 조정
             #st.markdown(
@@ -238,7 +252,6 @@ if __name__ == "__main__":
         As = qa["A"]
         chapter = qa["chapter"]
         chapter_name = qa["chapter_name"]
-        name, email = login_result[1:]
 
         db = DB(chapter, name)
         
@@ -246,7 +259,6 @@ if __name__ == "__main__":
             st.session_state.return_num = ''
         
         
-
         all(col2, db,deadline, Qs, As, chapter, chapter_name, name, email)
 
 
