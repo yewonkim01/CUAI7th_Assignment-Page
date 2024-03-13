@@ -86,13 +86,13 @@ class DB:
         st.dataframe(style_df, width=440)
 
         if not st.session_state.button_pressed and st.session_state['FINAL_SUBMIT']:
-            f = st.session_state['FINAL_SUBMIT'][2:]
+            f = st.session_state['FINAL_SUBMIT']
             st.markdown(f'✅:green[{f} 모든 문제 제출 완료]')
         else:
             if df.eq('O').all().all():
                 st.session_state.submitted = True
                 st.session_state['FINAL_SUBMIT'] = date[2:]
-                st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
+                st.markdown(f'✅:green[{date[2:]} 모든 문제 제출 완료]')
                 self.doc_ref.update({
                     "FINAL_SUBMIT":
                     date[2:]})
