@@ -55,7 +55,7 @@ def show_answer(A:str):
 
     # 둥근 사각형 안에 글씨 출력
     st.markdown('정답 확인')
-    st.markdown(f'<div class="ans-rounded-box" style="font-size: 14px;">{A}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="ans-rounded-box" style="font-size: 15px;">{A}</div>', unsafe_allow_html=True)
 
 
 def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
@@ -105,7 +105,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:st
                 q = Qs[i-1]
 
                 # 둥근 사각형 만들어서 안에 문제 적기
-                st.markdown(f'<div class="rounded-box" style="font-size: 14px;">{q}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="rounded-box"style="font-size: 15px;">{q}</div>', unsafe_allow_html=True)
 
             # 오른쪽 답변/정답 열
             with col2:
