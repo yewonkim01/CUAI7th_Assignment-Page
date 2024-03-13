@@ -99,7 +99,7 @@ class DB:
                 st.session_state.button_pressed = False
                     
             else:
-                st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
+                st.markdown(f' :red[미제출된 항목이 있습니다.]')
                 st.session_state.button_pressed = False
 
     def check_FINAL_SUBMIT(self):
