@@ -11,16 +11,16 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                 #with col1: st.write(' ')
                 #with col2: st.write(' ')
 
-                with col1: st.markdown('<span style="font-weight:bold;">📄문제수 8개</span>', unsafe_allow_html=True)
-                with col2: st.markdown('<span style="font-weight:bold;">⏱️제한 시간 없음</span>', unsafe_allow_html=True)
+                with col1: st.markdown('📄문제수 8개')
+                with col2: st.markdown('⏱️제한 시간 없음')
 
                 with col1: st.write(' ')
                 with col2: st.write(' ')
                 
                 
                 deadline = deadline.strftime(f"%Y.%m.%d %H:%M:%S")
-                with col1: st.markdown('<span style="font-weight:bold;">🗓️응시 기간</span>', unsafe_allow_html=True)
-                with col2: st.markdown(f'<span style="font-weight:bold;">~ {deadline[2:]}</span>', unsafe_allow_html=True)
+                with col1: st.markdown('🗓️응시 기간</span>')
+                with col2: st.markdown(f'{deadline[2:]}')
                 success = """
                     <style>
                         .success-box {
