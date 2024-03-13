@@ -86,7 +86,7 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                 for i in range(10):
                      st.write(' ')
                 
-                st.markdown('※ 과제 제출에 문제가 발생하면 즉시 "CUAI 카카오톡 채널"로 문의바랍니다.')
+                st.markdown('※ 퀴즈 응시 중 문제가 발생하면 즉시 "CUAI 카카오톡 채널"로 문의바랍니다.')
 
 
         
