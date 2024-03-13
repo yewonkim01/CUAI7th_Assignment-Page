@@ -94,7 +94,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:st
                             border-radius: 10px;
                             background-color: #45435A;
                             padding: 20px;
-                            height: 560px;
+                            height: 590px;
                             margin-right:10px;
                         }
                     </style>
