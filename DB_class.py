@@ -84,16 +84,23 @@ class DB:
         #값에 select_color() 적용
         style_df = df.style.applymap(lambda x: self.select_color(x))
         st.dataframe(style_df, width=440)
-        
-        if df.eq('O').all().all():
-            st.session_state['FINAL_SUBMIT'] = date[2:]
-            st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
-            self.doc_ref.update({
-                "FINAL_SUBMIT":
-                date[2:]})
-                
+
+        if not st.session_state.button_pressed and st.session_state['FINAL_SUBMIT']:
+            f = st.session_state['FINAL_SUBMIT']
+            st.markdown(f'✅:green[{f} 모든 문제 제출 완료]')
         else:
-            st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
+            if df.eq('O').all().all():
+                st.session_state.submitted = True
+                st.session_state['FINAL_SUBMIT'] = date[2:]
+                st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
+                self.doc_ref.update({
+                    "FINAL_SUBMIT":
+                    date[2:]})
+                st.session_state.button_pressed = False
+                    
+            else:
+                st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
+                st.session_state.button_pressed = False
 
     def check_FINAL_SUBMIT(self):
         if 'FINAL_SUBMIT' in self.doc_field:
