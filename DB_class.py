@@ -92,7 +92,7 @@ class DB:
             if df.eq('O').all().all():
                 st.session_state.submitted = True
                 st.session_state['FINAL_SUBMIT'] = date[2:]
-                st.markdown(f'✅:green[{date[2:]} 모든 문제 제출 완료]')
+                st.markdown(f'✅:green[{st.session_state['FINAL_SUBMIT']} 모든 문제 제출 완료]')
                 self.doc_ref.update({
                     "FINAL_SUBMIT":
                     date[2:]})
