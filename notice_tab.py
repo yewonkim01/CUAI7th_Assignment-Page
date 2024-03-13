@@ -19,8 +19,8 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                 
                 
                 deadline = deadline.strftime(f"%Y.%m.%d %H:%M:%S")
-                with col1: st.markdown('🗓️응시 기간</span>')
-                with col2: st.markdown(f'{deadline[2:]}')
+                with col1: st.markdown('🗓️응시 기간')
+                with col2: st.markdown(f'~ {deadline[2:]}')
                 success = """
                     <style>
                         .success-box {
