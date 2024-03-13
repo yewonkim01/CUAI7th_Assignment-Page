@@ -51,8 +51,8 @@ class DB:
 
     #이미 이전에 작성한 내용있으면 DB에서 가져오기 없으면 "" 반환
     def submitted_answer(self, q_num:int) -> str: #반환값은 이미 작성했던 답변
-        if f"Q{q_num+1}" in self.doc_field_keys:
-            return self.doc_field[f"Q{q_num+1}"]['ans']
+        if f"Q{q_num}" in self.doc_field_keys:
+            return self.doc_field[f"Q{q_num}"]['ans']
         else:
             return ""
         
@@ -71,6 +71,7 @@ class DB:
             return ''
         
     def submit_df(self):
+        print('submit_df ing')
         kst = pytz.timezone('Asia/Seoul')
         now = datetime.now(kst)
         
@@ -82,12 +83,20 @@ class DB:
         
         #값에 select_color() 적용
         style_df = df.style.applymap(lambda x: self.select_color(x))
-        st.dataframe(style_df, width=305)
+        st.dataframe(style_df, width=440)
         
         if df.eq('O').all().all():
+            st.session_state['FINAL_SUBMIT'] = date[2:]
             st.markdown(f'✅:green[{date} 모든 문제 제출 완료]')
             self.doc_ref.update({
                 "FINAL_SUBMIT":
                 date[2:]})
+                
         else:
             st.markdown(f'❌:red[미제출된 항목이 있습니다.]')
+
+    def check_FINAL_SUBMIT(self):
+        if 'FINAL_SUBMIT' in self.doc_field:
+            return self.doc_field['FINAL_SUBMIT']
+        else:
+            return ""

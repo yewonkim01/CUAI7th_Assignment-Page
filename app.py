@@ -11,7 +11,8 @@ if 'notice' not in st.session_state:
     st.session_state['notice'] = """
             * 문제는 모두 주관식이며, 제한시간은 없습니다.<br><br>
             * Basic Track 퀴즈 참여는 학회 출석 요건 중 하나이며, 정해진 기간 안에 꼭 응시해주세요.<br><br>
-            * 문제 풀이 결과는 학회 수료와 무관하니, 정답 유무에 관계없이 개념 확인 용도로 테스트를 봐주시면 감사하겠습니다.
+            * 문제 풀이 결과는 학회 수료와 무관하니, 정답 유무에 관계없이 개념 확인 용도로 퀴즈를 응시해주세요.<br><br>
+            * 과제 제출에 문제가 발생하면 즉시 "CUAI 카카오톡 채널"로 문의바랍니다.
             """
 
 #이메일로 로그인
@@ -264,11 +265,11 @@ if __name__ == "__main__":
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
-            a,b = st.columns(2)
+            a,b = st.columns([1,2])
             with b:
                 if 'value' not in st.session_state:
                     st.session_state.value = {f'Q{i}': db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
                 else:
-                     if st.session_state.return_num:
-                        st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
+                        if st.session_state.return_num:
+                            st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
                 db.submit_df()
