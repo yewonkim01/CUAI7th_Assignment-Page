@@ -66,7 +66,7 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
 
 
                 if submitted:
-                    comment = f"""✅ <span class="bold-text">테스트 응시 완료</span><br>
+                    comment = f"""✅ <span class="bold-text">퀴즈 응시 완료</span><br>
                             {'&nbsp;' * 8}{st.session_state['FINAL_SUBMIT']} 제출 완료"""
                     box = "success"
                     
@@ -77,7 +77,7 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                         box = "fail"
                     
                     else:
-                        comment = f"""<span class="bold-text">💡테스트를 응시해주세요.</span><br>"""
+                        comment = f"""<span class="bold-text">💡퀴즈를 응시해주세요.</span><br>"""
                         box = "success"
 
                 # 둥근 사각형 안에 글씨 출력
