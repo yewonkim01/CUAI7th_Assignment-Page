@@ -43,7 +43,7 @@ def show_answer(A:str):
                 border-radius: 10px;
                 background-color: #45435A;
                 padding: 20px;
-                height: 260px;
+                height: 250px;
                 margin-right:10px;
                 margin-bottom:20px;
                 overflow-y: auto;
@@ -94,7 +94,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:st
                             border-radius: 10px;
                             background-color: #45435A;
                             padding: 20px;
-                            height: 600px;
+                            height: 560px;
                             margin-right:10px;
                         }
                     </style>
