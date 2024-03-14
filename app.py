@@ -230,7 +230,7 @@ if __name__ == "__main__":
             st.write('# 중앙대학교')
             st.write('# 인공지능학회')
             st.write("# **CUAI 7TH**")
-            for i in range(5):
+            for i in range(3):
                 st.write('  ')
 
             selected = st.selectbox("챕터 선택", [
