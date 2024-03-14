@@ -83,7 +83,7 @@ class DB:
         
         #값에 select_color() 적용
         style_df = df.style.applymap(lambda x: self.select_color(x))
-        st.dataframe(style_df, width=470)
+        st.dataframe(style_df, width=460)
 
         if not st.session_state.button_pressed and st.session_state['FINAL_SUBMIT']:
             f = st.session_state['FINAL_SUBMIT']
