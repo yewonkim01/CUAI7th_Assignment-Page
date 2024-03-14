@@ -284,7 +284,7 @@ if __name__ == "__main__":
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
         with col2:
-            a,b = st.columns([1,2])
+            a,b = st.columns([1,4])
             with b:
                 if 'value' not in st.session_state:
                     st.session_state.value = {f'Q{i}': db.check_db_submitted(f"Q{i}") for i in range(1, len(Qs)+1)}
