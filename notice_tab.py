@@ -24,18 +24,22 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                 success = """
                     <style>
                         .success-box {
+                            border: 2px solid #007355;
                             border-radius: 10px;
-                            background-color: #C4DDC1;
                             padding: 20px;
-                            height: 80px;
+                            
+                            height: 95px;
                             #width: 500px;
                             margin-right:10px;
                             margin-bottom:20px;
-                            overflow-y: auto;
-                            color: #007355;
+                            #overflow-y: auto;
+                            color: #ffffff;
                         }
                         .bold-text {
                             font-weight: bold; /* 텍스트를 볼드체로 지정 */
+                        }
+                        .green-text {
+                            color: #007355; /* 텍스트를 초록색으로 지정 */
                         }
                     </style>
                 """
@@ -43,18 +47,22 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                 fail = """
                     <style>
                         .fail-box {
+                            border: 2px solid #A43232;
                             border-radius: 10px;
-                            background-color: #EBB1B0;
                             padding: 20px;
-                            height: 80px;
+
+                            height: 95px;
                             #width: 500px;
                             margin-right:10px;
                             margin-bottom:20px;
-                            overflow-y: auto;
-                            color: #A40000;
+                            #overflow-y: auto;
+                            color: #ffffff;
                         }
                         .bold-text {
                             font-weight: bold; /* 텍스트를 볼드체로 지정 */
+                        }
+                        .red-text {
+                            color: #A43232; /* 텍스트를 초록색으로 지정 */
                         }
                     </style>
                 """
@@ -66,18 +74,19 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
 
 
                 if submitted:
-                    comment = f"""✅ <span class="bold-text">퀴즈 응시 완료</span><br>
-                            {'&nbsp;' * 8}{st.session_state['FINAL_SUBMIT']} 제출 완료"""
+                    comment = f"""✅ <span class="bold-text green-text">퀴즈 응시 완료</span><br>
+                            {'&nbsp;' * 8}<span class="green-text">{st.session_state['FINAL_SUBMIT']} 제출 완료</span>"""
                     box = "success"
                     
                 elif not submitted:
                     if deadline_passed:
-                        comment = f"""🚫 <span class="bold-text">퀴즈 미제출</span><br>
+                        comment = f"""🚫 <span class="bold-text red-text">퀴즈 미제출</span><br>
                                 {'&nbsp;' * 8}응시 기간이 지나 응시할 수 없습니다."""
                         box = "fail"
                     
                     else:
-                        comment = f"""<span class="bold-text">💡퀴즈를 응시해주세요.</span><br>"""
+                        comment = f"""<span class="bold-text green-text">💡퀴즈 제출 전입니다.</span><br>
+                                {'&nbsp;' * 8}응시 기간 안에 제출을 완료해주세요."""
                         box = "success"
 
                 # 둥근 사각형 안에 글씨 출력
