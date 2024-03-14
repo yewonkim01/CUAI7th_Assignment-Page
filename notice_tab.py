@@ -75,18 +75,18 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
 
                 if submitted:
                     comment = f"""✅ <span class="bold-text green-text">퀴즈 응시 완료</span><br>
-                            {'&nbsp;' * 8}<span class="green-text">{st.session_state['FINAL_SUBMIT']} 제출 완료</span>"""
+                            {'&nbsp;' * 7}<span class="green-text">{st.session_state['FINAL_SUBMIT']} 제출 완료</span>"""
                     box = "success"
                     
                 elif not submitted:
                     if deadline_passed:
                         comment = f"""🚫 <span class="bold-text red-text">퀴즈 미제출</span><br>
-                                {'&nbsp;' * 8}응시 기간이 지나 응시할 수 없습니다."""
+                                {'&nbsp;' * 7}응시 기간이 지나 응시할 수 없습니다."""
                         box = "fail"
                     
                     else:
                         comment = f"""<span class="bold-text green-text">💡퀴즈 제출 전입니다.</span><br>
-                                {'&nbsp;' * 8}응시 기간 안에 제출을 완료해주세요."""
+                                {'&nbsp;' * 7}응시 기간 안에 제출을 완료해주세요."""
                         box = "success"
 
                 # 둥근 사각형 안에 글씨 출력
