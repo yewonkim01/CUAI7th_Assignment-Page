@@ -26,12 +26,12 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                         .success-box {
                             border: 2px solid #007355;
                             border-radius: 10px;
-                            padding: 20px;
+                            padding: 15px;
                             
-                            height: 95px;
+                            height: 85px;
                             #width: 500px;
-                            margin-right:10px;
-                            margin-bottom:20px;
+                            #margin-right:10px;
+                            #margin-bottom:20px;
                             #overflow-y: auto;
                             color: #ffffff;
                         }
@@ -49,12 +49,12 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                         .fail-box {
                             border: 2px solid #A43232;
                             border-radius: 10px;
-                            padding: 20px;
+                            padding: 15px;
 
-                            height: 95px;
+                            height: 85px;
                             #width: 500px;
-                            margin-right:10px;
-                            margin-bottom:20px;
+                            #margin-right:10px;
+                            #margin-bottom:20px;
                             #overflow-y: auto;
                             color: #ffffff;
                         }
