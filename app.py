@@ -8,7 +8,6 @@ from datetime import datetime
 import time
 from notice_tab import display_notice_tab
 
-from copy import copy
 
 if 'notice' not in st.session_state:
     st.session_state['notice'] = """
@@ -58,7 +57,7 @@ def show_answer(A:str):
     st.markdown(f'<div class="ans-rounded-box" style="font-size: 15px;">{A}</div>', unsafe_allow_html=True)
 
 
-def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:str, name:str, email:str):
+def all(tabs, col2, db, deadline, Qs:list, As:list):
     '''
     db: 데이터베이스
     Qs: 해당 주차 문제 담긴 리스트
@@ -68,7 +67,6 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:st
     name: 학회원 이름
     email: 학회원 이메일
     '''
-    print('all함수 ing')
 
     kst = pytz.timezone('Asia/Seoul')
     deadline = deadline.astimezone(kst)
@@ -120,8 +118,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, chapter:str, chapter_name:st
                                       placeholder="답안을 작성해 주세요.",
                                       #value=st.session_state[f'num{i+1}_ans']
                                       )
-                #print(st.session_state[f'num{i+1}_ans'])
-                #st.session_state[f'num{i+1}_ans'] = answer
+
 
                 
 
@@ -199,19 +196,8 @@ if __name__ == "__main__":
         login_result = login_email() #tuple로 반환 (db에 등록된 이메일인지 여부, 이름, 이메일)
 
     if login_result[0]:
-        #time.sleep(3)
         with st.sidebar:
-            #사이드바 크기 조정
-            #st.markdown(
-            #    """
-            #    <style>
-            #    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
-            #        width:250px;
-            #    }
-            #    </style>
-            #    """,
-            #    unsafe_allow_html=True,
-            #)
+
             
             
             st.markdown(
@@ -242,7 +228,6 @@ if __name__ == "__main__":
                 #'ch06',
                 #'ch07'
                 ])
-            #st.markdown('<div style="height: 480px;"></div>', unsafe_allow_html=True)
             
         
         qa = qa_settings.QA[selected]
@@ -267,7 +252,7 @@ if __name__ == "__main__":
 
         
         
-        print('all 시작')
+
         # 페이지 서브헤더 제목 설정
         st.subheader(f"[Chapter{chapter[2:]}] {chapter_name}")
         
@@ -279,7 +264,7 @@ if __name__ == "__main__":
         if st.session_state['FINAL_SUBMIT']:
             st.session_state.submitted = True
         
-        all(tabs, col2, db,deadline, Qs, As, chapter, chapter_name, name, email)
+        all(tabs, col2, db,deadline, Qs, As)
 
 
         #상단 오른쪽에 제출했는지 데이터프레임 보여주기
@@ -291,12 +276,10 @@ if __name__ == "__main__":
                 else:
                      if st.session_state.return_num:
                         st.session_state.value[f'Q{st.session_state.return_num}'] = 'O'
-                print('submit_df 시작')
                 db.submit_df()                
                 display_notice_tab(tabs, deadline, st.session_state.deadline_passed, st.session_state['submitted'])
                 
                 
-                print('submit_df 끝')
         
                 
                 

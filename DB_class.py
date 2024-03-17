@@ -56,7 +56,7 @@ class DB:
         else:
             return ""
         
-    #제출했으면 O표시 초록색으로
+    #글자색 변경
     def select_color(self, value):
         if value == 'O':
             return 'color:green'
@@ -71,7 +71,6 @@ class DB:
             return ''
         
     def submit_df(self):
-        print('submit_df ing')
         kst = pytz.timezone('Asia/Seoul')
         now = datetime.now(kst)
         

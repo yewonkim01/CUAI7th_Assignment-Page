@@ -11,11 +11,10 @@ set_data = set()
 with open('BASIC_email.csv', 'r', encoding='UTF-8') as csv_file:
     reader = csv.DictReader(csv_file)
     for row in reader:
-        name = row['\ufeff이름'] #이름 앞에 자꾸 이상한 문자가 붙어요
+        name = row['\ufeff이름'] #이름 앞에 자꾸 이상한 문자가 붙음
         email = row['이메일']
         json_data[email] = name
         set_data.add(email)
-#print(set_data)
 
 
 with open('BASIC_email.json', 'w', encoding = 'UTF-8') as json_file:

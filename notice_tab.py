@@ -78,7 +78,7 @@ def display_notice_tab(tabs, deadline, deadline_passed, submitted):
                             {'&nbsp;' * 7}<span class="green-text">{st.session_state['FINAL_SUBMIT']} 제출 완료</span>"""
                     box = "success"
                     
-                elif not submitted:
+                else:
                     if deadline_passed:
                         comment = f"""🚫 <span class="bold-text red-text">퀴즈 미제출</span><br>
                                 {'&nbsp;' * 7}응시 기간이 지나 응시할 수 없습니다."""
