@@ -4,7 +4,7 @@ from DB_class import DB
 from email_info import data
 
 import pytz
-from datetime import datetime 
+from datetime import datetime
 from notice_tab import display_notice_tab
 
 showWarningOnDirectExecution = False
@@ -69,6 +69,9 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst):
     email: 학회원 이메일
     '''
 
+
+    print('all()')
+
     
     if 'deadline_passed' not in st.session_state:
         st.session_state.deadline_passed = False
@@ -78,6 +81,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst):
         st.session_state.deadline_passed = True
     
     def disable(i):
+        print('disable() run')
         #st.session_state.return_num = i
         st.session_state.num_submitted[i-1] = 1
         #db.save_db(i, answer)
@@ -112,17 +116,16 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst):
                 # 둥근 사각형 만들어서 안에 문제 적기
                 st.markdown(f'<div class="rounded-box"style="font-size: 15px;">{q}</div>', unsafe_allow_html=True)
 
+            #if f'num{i}_ans' not in st.session_state:
+            #    st.session_state[f'num{i}_ans'] = db.submitted_answer(i)
+            
+
             # 오른쪽 답변/정답 열
             with col2:
                 st.write('\n')
-
-                if f'num{i}_ans' not in st.session_state:
-                    st.session_state[f'num{i}_ans'] = db.submitted_answer(i)
-
-
-                answer = st.text_area(" ", key = f'num{i}_ans', height=200,
+                answer = st.text_area(" ", key = f'num{i}_ans', height=20,
                                       placeholder="답안을 작성해 주세요.",
-                                      value=st.session_state[f'num{i}_ans']
+                                      value=st.session_state.get(f'num{i}_ans', db.submitted_answer(i))
                                       )
                 
 
@@ -139,6 +142,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst):
 
                 # 제출된 답변 없으면 <제출하기> 버튼 눌러야 정답확인 가능 
                 if button:
+                    print('if button clicked')
                     now = datetime.now(kst)
                     if now > deadline:
                         st.session_state.deadline_passed = True
@@ -166,6 +170,7 @@ def all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst):
 
 def deadline_passed_all(tabs, col2, db, deadline, Qs:list, As:list, submits:list, kst): 
     #존재하는 tab수만큼 반복문 돌리면서 화면 구성
+    
     for i in range(1, len(tabs)):
         with tabs[i]:
             col1, col2 = st.columns(2)  #col1은 왼쪽 문제보이는 열, col2는 오른쪽 답변과 정답확인하는 열 
@@ -228,6 +233,7 @@ def deadline_passed_all(tabs, col2, db, deadline, Qs:list, As:list, submits:list
                 if submits[i-1]: show_answer(As[i-1])  
           
 if __name__ == "__main__":
+    print('=============')
     print('page reloaded')
     #페이지 기본 설정
     st.set_page_config(
@@ -364,4 +370,5 @@ if __name__ == "__main__":
                 
                 
         
-            
+                
+                
