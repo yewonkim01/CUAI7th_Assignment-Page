@@ -1,4 +1,4 @@
-# CUAI7th_Assignment-Page
+![cuai_logo](https://github.com/yewonkim01/CUAI7th_Assignment-Page/assets/115199510/2895b66d-3ddf-4fc8-9ca9-53318994bf7c) # CUAI7th_Assignment-Page
 
 
 ## Open in Streamlit
