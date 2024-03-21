@@ -1,5 +1,5 @@
 # CUAI7th_Assignment-Page
-
+Assignment "Submission" Page for CUAI Basic Track
 
 ## Open in Streamlit
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://cuai-7th.streamlit.app/)
