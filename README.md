@@ -1,5 +1,5 @@
 # CUAI7th_Assignment-Page
-Assignment "Submission" Page for CUAI 7th Basic Track
+Assignment "Submission" Page for CUAI 7th Basic Track<br>
 Build apps in Python with Streamlit
 
 ## Open Page
