@@ -2,7 +2,7 @@
 Assignment "Submission" Page for CUAI 7th Basic Track<br>
 Build apps in Python with Streamlit
 
-## Open Page
+## Open The Page
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://cuai-7th.streamlit.app/)
 
 ## Page Images
